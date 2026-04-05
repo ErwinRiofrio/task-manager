@@ -4,7 +4,7 @@
 const { Sequelize } = require('sequelize');
 
 //crear conexion a mysql
-const sequelize = new Sequelize('task_manager', 'root', '', {
+const sequelize = new Sequelize('taskmanager', 'root', '', {
     host: 'localhost',
     dialect: 'mysql'
 });

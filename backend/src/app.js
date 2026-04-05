@@ -7,6 +7,10 @@ const helmet = require('helmet');//seguridad proteger http
 //inicializamos la app
 const app = express();
 
+//rutas
+const routes = require('./routes');
+app.use('/api', routes);
+
 //middleware para leer json(APIS)
 app.use(express.json());
 app.use(cors());//seguridad basica
