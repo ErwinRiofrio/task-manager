@@ -33,4 +33,4 @@ exports.deleteTask = async (req, res) => {
     where: { id, userId: req.user.id }
   });
   res.json({ message: 'Tarea eliminada' });
-}
+};
