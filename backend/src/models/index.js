@@ -1,5 +1,5 @@
-const User = require('./users');
-const Task = require('./tasks');
+const User = require('./Users');
+const Task = require('./Tasks');
 
 //Definir relaciones
 //Un usuario puede tener muchas tareas
