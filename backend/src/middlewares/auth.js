@@ -12,6 +12,8 @@ const verifyToken = (req, res, next) => {
         const decoded = jwt.verify(token, "secreto"); // En producción, usar una variable de entorno
         //guardamos info del usuario en la req para usarla en los controladores
         req.user = decoded;
+
+        next();
     } catch (err) {
         return res.status(400).json({ message: 'Token inválido' });
     }
