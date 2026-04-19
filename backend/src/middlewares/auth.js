@@ -1,21 +1,27 @@
 const jwt = require('jsonwebtoken');
 
 const verifyToken = (req, res, next) => {
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1]; // Bearer TOKEN
+    let token = req.headers['authorization'];
+    
     if (!token){
         return res.status(401).json({ message: 'Acceso Denegado' });
     }
 
-    try{
-        //verificar el token
-        const decoded = jwt.verify(token, "secreto"); // En producción, usar una variable de entorno
-        //guardamos info del usuario en la req para usarla en los controladores
-        req.user = decoded;
+    // Novedad: Si el token empieza con "Bearer ", se lo quitamos.
+    // Así funciona con Postman (con Bearer) y con React (sin Bearer).
+    if (token.startsWith("Bearer ")) {
+        token = token.slice(7, token.length).trim();
+    }
 
+    try{
+        // Verificar el token limpio
+        const decoded = jwt.verify(token, "secreto");
+        req.user = decoded;
         next();
     } catch (err) {
-        return res.status(400).json({ message: 'Token inválido' });
+        // Si el token expiró o está mal formado, cae aquí
+        return res.status(400).json({ message: 'Token inválido o expirado' });
     }
-  };
+};
+
 module.exports = verifyToken;
