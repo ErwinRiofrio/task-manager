@@ -36,6 +36,26 @@ function Dashboard(){
     getTasks();
   };
 
+  const updateTask = async (id) => {
+    // Para este ejemplo, pedimos el nuevo título con un prompt.
+    // Lo ideal en el futuro es abrir un modal o llenar el formulario superior.
+    const newTitle = prompt("Ingresa el nuevo título para la tarea:");
+    const newDescription = prompt("Ingresa la nueva descripción para la tarea:");
+    
+    if (!newTitle || !newDescription) return; // Si el usuario cancela, no hacemos nada
+
+    try {
+      await axios.put(`http://localhost:3000/api/tasks/${id}`,
+        { title: newTitle, description: newDescription },
+        { headers: { Authorization: token } }
+      );
+      // Recargamos las tareas para ver los cambios reflejados
+      getTasks();
+    } catch (error) {
+      console.error("Error al actualizar la tarea:", error);
+    }
+  };
+
   return(
     <div className="min-h-screen bg-gray-100 p-6">
       {/* HEADER */}
@@ -69,6 +89,10 @@ function Dashboard(){
           <div>
             <h3 className="font-bold">{t.title}</h3>
             <p className="text-gray-500 text-sm">{t.description}</p>
+          </div>
+
+          <div>
+            <button onClick={()=>updateTask(t.id)} className="bg-yellow-500 text-white px-2 py-1 rounded mr-2">Editar</button>
           </div>
 
           <span className="text-xs bg-green-100 px-2 py-1 rounded">

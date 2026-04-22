@@ -20,6 +20,11 @@ const Task = sequelize.define('Task', {
         type: DataTypes.ENUM('pending', 'in_progress', 'completed'),
         defaultValue: 'pending'
     },
+    active: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: true
+    },
     userId: {
         type: DataTypes.INTEGER,
         allowNull: false,
